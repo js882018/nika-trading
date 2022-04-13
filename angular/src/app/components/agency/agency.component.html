@@ -1,0 +1,52 @@
+<app-header></app-header>
+<section class="content-wrapper">
+    <div class="container">
+        <div class="user-list with-filter">
+            <div class="head-common">
+                <h4 class="comn_title">All Agencies</h4>
+                <div class="btn-sec">
+                    <a class="btn btn-primary btn-lg" routerLink="/agencies/add">Add Agency</a>
+                </div>
+            </div>
+            <div class="tabel-sec">
+                <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let row of datalist | paginate: { itemsPerPage: per_page, currentPage: page, totalItems: total }; let i = index;">
+                            <td>{{row.id}}</td>
+                            <td>{{row.name}}</td>
+                            <td>{{row.email}}</td>
+                            <td>{{row.phone}}</td>
+                            <td>
+                                <div class="comn-actions">
+                                    <a routerLink="/agencies/edit/{{row.id}}" title="Edit"
+                                        class="edit-btn action-btns" role="button">
+                                        <i class="fa fa-edit"></i></a><br />
+                                    <a (click)="deleteRow(row.id)" title="Delete" class="trash-btn action-btns"
+                                        role="button"><span class="ti-trash"></span> <i class="fa fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="total == 0">
+                            <td colspan="7">No records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="total != 0" class="mention-card">
+                <div class="paginate_sec_bottom">
+                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

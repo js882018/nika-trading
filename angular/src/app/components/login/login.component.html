@@ -1,0 +1,42 @@
+<section class="login-wrapper">
+       <div class="login-form form-sec">
+            <div class="login-logo">
+               <a href="http://nikatrading.in"> <img src="../../../assets/images/logo.png" alt="Nika Trading logo" title="Nika Trading"></a>
+            </div>
+            <h4 class="login-title">Login</h4>
+            <div class="login-form-sec">
+            <form [formGroup]="form" (ngSubmit)="doLogin()" class="login" id="login" action="javascript:void(0);">
+                <div id="res_alert"></div>
+                <div class="form-group">
+                    <label class="">Email</label>
+                    <input type="text" [ngClass]="err.email ? 'error' : ''" class="form-control" placeholder=""
+                        formControlName="email">
+                    <span class="validation" *ngIf="!form_validate_error('email', 'required')">Please enter the
+                        email address.</span>
+                    <span class="validation" *ngIf="!form_validate_error('email', 'email')">Please enter the valid
+                        email address.</span>
+                    <span class="validation" *ngIf="err.email">{{err.email}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="">Password</label>
+                    <input type="password" [ngClass]="err.password ? 'error' : ''" class="form-control"
+                        placeholder="" formControlName="password">
+                    <span class="validation" *ngIf="!form_validate_error('password', 'required')">Please enter the
+                        password.</span>
+                    <span class="validation" *ngIf="err.password">{{err.password}}</span>
+                </div>
+                <div class="form-submit login_sbmt">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="javascript:void(0);" routerLink="/forgot-password">Forgot Password?</a>
+                </div>
+                <div class="reg-link">
+                    <a href="javascript:void(0);" routerLink="/user-registration">Don't have an account yet? Sign up now!</a>
+                </div>
+
+            </form>
+            </div>
+        </div>
+</section>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#aab9f2" type="square-spin" [fullScreen]="true">
+    <p style="color: white"></p>
+</ngx-spinner>

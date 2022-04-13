@@ -1,0 +1,86 @@
+<app-header></app-header>
+<section class="content-wrapper">
+    <div class="form-section">
+        <div class="head-common">
+            <h4 class="comn_title">Edit Profile</h4>
+        </div>
+        <div class="form-section-inner">
+            <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Name <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="name" maxlength="128">
+                        <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
+                            name.</span>
+                        <span class="validation" *ngIf="err.name">{{err.name}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Email <span class="required">*</span></label>
+                        <input type="text" class="form-control" placeholder="" formControlName="email" readonly="true">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">New Password </label>
+                        <input type="password" class="form-control" placeholder="" formControlName="new_password">
+                        <span class="validation" *ngIf="!form_validate_error('new_password', 'minlength')">Password
+                            should be min 6 characters long.</span>
+                        <span class="validation" *ngIf="!form_validate_error('new_password', 'maxlength')">Password
+                            can be max 12 characters long.</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Confirm Password </label>
+                        <input type="password" class="form-control" placeholder="" formControlName="confirm_password">
+                        <span class="validation" *ngIf="form.hasError('notSame')">Your new passwords are not
+                            match.</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Phone <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.phone ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="phone" maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'required')">Please enter the
+                            phone number.</span>
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'pattern')">Please enter
+                            the valid phone number.</span>
+                        <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
+                    </div>
+                    <div class="form-group col-md-6" *ngIf="data.user_role == '3'">
+                        <label class="">Bank A/C Number <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.bank_account ? 'error' : ''" class="form-control"
+                            placeholder="" formControlName="bank_account" maxlength="25">
+                        <span class="validation" *ngIf="err.bank_account">{{err.bank_account}}</span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="data.user_role == '3'">
+                    <div class="form-group col-md-6">
+                        <label class="">IFSC Code <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.ifsc ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="ifsc" maxlength="15">
+                        <span class="validation" *ngIf="err.ifsc">{{err.ifsc}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Branch <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.branch ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="branch" maxlength="65">
+                        <span class="validation" *ngIf="err.branch">{{err.branch}}</span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="data.user_role == '3'">
+                    <div class="form-group col-md-6">
+                        <label class="">Address <span class="required">*</span></label>
+                        <textarea rows="5" cols="80" [ngClass]="err.address ? 'error' : ''" class="form-control"
+                            formControlName="address"></textarea>
+                        <span class="validation" *ngIf="err.address">{{err.address}}</span>
+                    </div>
+                </div>
+                <div class="form-submit">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

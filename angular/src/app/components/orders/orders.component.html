@@ -1,0 +1,104 @@
+<app-header></app-header>
+<section class="content-wrapper">
+    <div class="container">
+        <div class="user-list with-filter">
+            <div class="head-common">
+                <h4 class="comn_title">All Orders</h4>
+                <div class="btn-sec">
+                    <a class="btn btn-primary btn-lg" routerLink="/orders/add">Add Order</a>
+                </div>
+            </div>
+            <div class="tabel-sec">
+                <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Total Amount</th>
+                            <th>Expected Shipment Date</th>
+                            <th>Order Status</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let row of datalist | paginate: { itemsPerPage: per_page, currentPage: page, totalItems: total }; let i = index;">
+                            <td>{{row.id}}</td>
+                            <td>{{row.order_id}}</td>
+                            <td>{{row.customer_name}}</td>
+                            <td>{{row.total_amount}}</td>
+                            <td>{{row.shipment_date}}</td>
+                            <td>{{row.status_name}}</td>
+                            <td>{{row.user_name}}</td>
+                            <td>
+                                <div class="comn-actions">
+                                    <a *ngIf="current_role != 3" title="Update Status"
+                                        (click)="show_modal(row.id, row.status)" class="status-btn action-btns"
+                                        role="button"><i class="fa fa-check"></i></a>
+                                    <a routerLink="/orders/view/{{row.id}}" title="View" class="view-btn action-btns"
+                                        role="button">
+                                        <i class="fa fa-eye"></i></a>
+                                    <a *ngIf="current_role != 3" routerLink="/orders/edit/{{row.id}}"
+                                        title="Edit" class="edit-btn action-btns" role="button"><i
+                                            class="fa fa-edit"></i></a>
+                                    <a *ngIf="current_role == 3 && row.status == 1" routerLink="/orders/edit/{{row.id}}"
+                                        title="Edit" class="edit-btn action-btns" role="button"><i
+                                            class="fa fa-edit"></i></a>
+                                    <a (click)="deleteRow(row.id)" title="Delete" class="trash-btn action-btns"
+                                        role="button"><span class="ti-trash"></span> <i class="fa fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="total == 0">
+                            <td colspan="7">No records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="total != 0" class="mention-card">
+                <div class="paginate_sec_bottom">
+                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="modal" id="statusModal" [style.display]="showModal ? 'block' : 'none'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Order Status</h4>
+                    <button type="button" class="close" data-dismiss="modal" (click)="hide_modal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="">Order Status <span class="required">*</span></label>
+                                <select formControlName="order_status" class="form-control">
+                                    <option value="">- Select Status -</option>
+                                    <option value="1">Open</option>
+                                    <option value="2">Approved</option>
+                                    <option value="3">Way to delivery</option>
+                                    <option value="4">Delivered</option>
+                                    <option value="5">Return</option>
+                                    <option value="6">Cancelled</option>
+                                </select>
+                                <span class="validation" *ngIf="!form_validate_error('order_status', 'required')">Please
+                                    select the order status.</span>
+                            </div>
+                        </div>
+                        <div class="form-submit">
+                            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

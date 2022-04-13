@@ -1,0 +1,107 @@
+<div class="header-sec">
+    <div class="row">
+        <div class="col-md-6 mobile-logo-sec">
+            <a routerLink="/dashboard">
+                <!--<span style="text-align:center;">HSquare</span>-->
+                <img src="../../../assets/images/logo.png" alt="Nika Trading logo" title="Nika Trading">
+            </a>
+            <span class="welcome-msg">Welcome {{current_name}}</span>
+        </div>
+        <div class="col-md-6">
+            <div class="menu-nav-sec">
+                <button class="mob_menu_ico" (click)="clickEvent()" [ngClass]="status ? 'ico_close' : 'ico_open'">
+                    <span class="ti-menu"></span>
+                    <span class="ti-close"></span>
+                </button>
+                <ul class="menubar">
+                    <li class="logout"><a (click)="doLogout()"><i class="fa fa-sign-out"
+                                aria-hidden="true"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Main Sidebar Container -->
+<aside class="side_nav_sec main-sidebar sidebar-dark-primary " role="navigation"
+    [ngClass]="status ? 'menu_open' : 'menu_close'">
+    <span class="cls" (click)="clickEvent()" [ngClass]="status ? 'ico_close' : 'ico_open'"></span>
+    <!-- Brand Logo -->
+    <div class="logo-box">
+        <div class="logo_sec" style="text-align: left;
+         color: #fff;
+         font-weight: bold;
+         font-size: xx-large;
+         text-shadow: 9 0 black;
+         ">
+            <a routerLink="/dashboard">
+                <!--<span style="text-align:center;">HSquare</span>-->
+                <img src="../../../assets/images/logo.png" alt="Nika Trading logo" title="Nika Trading">
+            </a>
+
+        </div>
+
+    </div>
+    <div class="navbar-default sidebar">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="accordion nav" id="side-menu2">
+
+                <li class="parent_mnu">
+                    <a routerLink="/dashboard" class="navilinks" routerLinkActive="menu_active"><span
+                            class="ti-dashboard menu-icons"></span> Dashboard</a>
+                </li>
+                <li class="parent_mnu">
+                    <a routerLink="/customers" class="navilinks" routerLinkActive="menu_active"><span
+                            class="ti-user menu-icons"></span> Customers</a>
+                </li>
+                <li class="parent_mnu" *ngIf="role == 1 || role == 2">
+                    <a class="navilinks" routerLink="/user-management" routerLinkActive="menu_active"><span
+                            class="ti-blackboard menu-icons"></span> User Management</a>
+                </li>
+                <li class="parent_mnu">
+                    <a routerLink="/items" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> Items</a>
+                </li>
+                <li class="parent_mnu">
+                    <a routerLink="/orders" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> Orders</a>
+                </li>
+                <li class="parent_mnu" *ngIf="role == 1">
+                    <a routerLink="/user-wallet" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> User Wallet</a>
+                </li>
+                <li class="parent_mnu" *ngIf="role == 1">
+                    <a routerLink="/withdrawal-requests" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> Withdrawal Requests</a>
+                </li>
+                <li class="parent_mnu" *ngIf="role != 1">
+                    <a routerLink="/my-wallet" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> My Wallet</a>
+                </li>
+                <li class="parent_mnu">
+                    <a routerLink="/edit-profile" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> Edit Profile</a>
+                </li>
+                <!-- <li class="parent_mnu">
+                    <a href="javascript:" class="parent navilinks collapsed" data-toggle="collapse" data-target="#administration_menu" aria-expanded="true" aria-controls="menu3"><span class="ti-user menu-icons"></span>  Administration <span class="ti-angle-down"></span> </a>
+                    <ul [routerLinkActive]="['show']" class="nav-second-level collapse " id="administration_menu" data-parent="#side-menu2">
+                        <li><a routerLink="/roles" routerLinkActive="active">Roles</a></li>
+                        <li><a routerLink="/teams" routerLinkActive="active">Teams</a></li>
+                        <li><a routerLink="/users" routerLinkActive="active">Users</a></li>
+                        <li><a routerLink="/currency" routerLinkActive="active">Currencies</a></li>
+                        <li><a routerLink="/bank" routerLinkActive="active">Banks</a></li>
+                    </ul>
+                </li> -->
+                <!-- <li class="parent_mnu">
+                    <a  (click)="doLogout()" class="parent navilinks" ><span class="ti-power-off menu-icons"></span> Logout</a> 
+                </li> -->
+            </ul>
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#aab9f2" type="square-spin" [fullScreen]="true">
+    <p style="color: white"></p>
+</ngx-spinner>

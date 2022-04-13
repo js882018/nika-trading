@@ -1,0 +1,75 @@
+<app-header></app-header>
+<section class="content-wrapper">
+   
+        <div class="user-list with-filter">
+            <div class="head-common">
+                <h4 class="comn_title">All Users</h4>
+                <div class="btn-sec">
+                    <a class="btn btn-primary btn-lg" routerLink="/user-management/add"><span class="ti-plus"></span> Add User</a>
+                </div>
+            </div>
+            <div class="filter_sec">
+                <form [formGroup]="search_form" (ngSubmit)="doSearch()" class="form_filter" id="form_filter"
+                    action="javascript:void(0);">
+                    <div class="filter-group">
+                        <select formControlName="user_role" class="form-control">
+                            <option value="">- Select Role-</option>
+                            <option value="2">Agency</option>
+                            <option value="3">Sales person</option>
+                        </select>
+                    </div>
+                    <div class="form-submit">
+                        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tabel-sec">
+                <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Agency</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let row of datalist | paginate: { itemsPerPage: per_page, currentPage: page, totalItems: total }; let i = index;">
+                            <td>{{row.id}}</td>
+                            <td>{{row.user_name}}</td>
+                            <td>{{row.user_email}}</td>
+                            <td>{{row.user_phone}}</td>
+                            <td>{{row.user_role}}</td>
+                            <td>{{row.agency_name}}</td>
+                            <td [innerHTML]="row.approved"></td>
+                            <td>
+                                <div class="comn-actions">
+                                    <a *ngIf="row.status != 1" (click)="approveRow(row.id)" title="Delete" class="trash-btn action-btns"
+                                        role="button"><span class="ti-trash"></span> <i class="fa fa-check"></i></a>
+                                    <a routerLink="/user-management/edit/{{row.id}}" title="Edit"
+                                        class="edit-btn action-btns" role="button">
+                                        <i class="fa fa-edit"></i></a><br />
+                                    <a (click)="deleteRow(row.id, row.user_details_id)" title="Delete" class="trash-btn action-btns"
+                                        role="button"><span class="ti-trash"></span> <i class="fa fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="total == 0">
+                            <td colspan="7">No records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="total != 0" class="mention-card">
+                <div class="paginate_sec_bottom">
+                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                </div>
+            </div>
+        
+    </div>
+</section>

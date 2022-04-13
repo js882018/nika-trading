@@ -1,0 +1,120 @@
+<app-header></app-header>
+<section class="content-wrapper">
+    <div class="form-section">
+        <div class="head-common">
+            <h4 class="comn_title">Add User</h4>
+            <div class="btn-sec">
+                <a routerLink="/user-management" class="btn btn-primary btn-lg"><span class="ti-list"></span> All
+                    Users</a>
+            </div>
+        </div>
+        <div class="form-section-inner">
+            <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Role <span class="required">*</span></label>
+                        <select formControlName="role" class="form-control" (change)="on_select_role($event.target)">
+                            <option value="">- Select Role-</option>
+                            <option value="2" *ngIf="role == '1'">Agency</option>
+                            <option value="3">Sales Person</option>
+                        </select>
+                        <span class="validation" *ngIf="!form_validate_error('role', 'required')">Please select
+                            the role.</span>
+                        <span class="validation" *ngIf="err.role">{{err.role}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Name <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="name" maxlength="128">
+                        <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
+                            name.</span>
+                        <span class="validation" *ngIf="err.name">{{err.name}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Email <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.email ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="email" maxlength="255">
+                        <span class="validation" *ngIf="!form_validate_error('email', 'required')">Please enter the
+                            email address.</span>
+                        <span class="validation" *ngIf="!form_validate_error('email', 'email')">Please enter the
+                            valid
+                            email address.</span>
+                        <span class="validation" *ngIf="err.email">{{err.email}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Password <span class="required">*</span></label>
+                        <input type="password" class="form-control" placeholder="" formControlName="password"
+                            maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('password', 'required')">Please enter
+                            the
+                            password.</span>
+                        <span class="validation" *ngIf="err.password">{{err.password}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Phone <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.phone ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="phone" maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'required')">Please enter the
+                            phone number.</span>
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'pattern')">Please enter
+                            the valid phone number.</span>
+                        <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
+                    </div>
+                    <div class="form-group col-md-6" *ngIf="is_show_details">
+                        <label class="">Bank A/C Number </label>
+                        <input type="text" [ngClass]="err.bank_account ? 'error' : ''" class="form-control"
+                            placeholder="" formControlName="bank_account" maxlength="25">
+                        <span class="validation" *ngIf="!form_validate_error('bank_account', 'required')">Please
+                            enter the bank account number.</span>
+                        <span class="validation" *ngIf="err.bank_account">{{err.bank_account}}</span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="is_show_details">
+                    <div class="form-group col-md-6">
+                        <label class="">IFSC Code </label>
+                        <input type="text" [ngClass]="err.ifsc ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="ifsc" maxlength="15">
+                        <span class="validation" *ngIf="!form_validate_error('ifsc', 'required')">Please enter
+                            the IFSC code.</span>
+                        <span class="validation" *ngIf="err.ifsc">{{err.ifsc}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Branch </label>
+                        <input type="text" [ngClass]="err.branch ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="branch" maxlength="65">
+                        <span class="validation" *ngIf="!form_validate_error('branch', 'required')">Please
+                            enter the
+                            bank branch.</span>
+                        <span class="validation" *ngIf="err.branch">{{err.branch}}</span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="is_show_details">
+                    <div class="form-group col-md-6">
+                        <label class="">Address</label>
+                        <textarea rows="5" cols="80" [ngClass]="err.address ? 'error' : ''" class="form-control"
+                            formControlName="address"></textarea>
+                    </div>
+                    <div class="form-group col-md-6" *ngIf="role == '1'">
+                        <label class="">Agencies</label>
+                        <select formControlName="agency_id" class="form-control">
+                            <option value="">- Select Agency-</option>
+                            <option *ngFor="let row of agencies" value="{{row.id}}">{{row.user_name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" *ngIf="role != '1'">
+                        <label class="">Agencies</label>
+                        <input type="text" class="form-control" placeholder="" formControlName="agency_name" readonly="true">
+                    </div>
+                </div>
+                <div class="form-submit">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>

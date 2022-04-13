@@ -1,0 +1,29 @@
+<section class="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 login-form form-sec">
+                <h3 class="text-center">Nika Trading</h3>
+                <h4>Validate OTP</h4>
+                <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="">Enter otp <span class="required">*</span></label>
+                            <input type="text" class="form-control" placeholder="" formControlName="otp" maxlength="6">
+                            <span class="validation" *ngIf="!form_validate_error('otp', 'required')">Please enter the
+                                OTP.</span>
+                            <!-- <span class="validation" *ngIf="form.get('otp').errors.otpValidator">Invalid OTP</span> -->
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button class="btn btn-primary btn-lg" type="submit">Validate</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</section>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#aab9f2" type="square-spin" [fullScreen]="true">
+    <p style="color: white"></p>
+</ngx-spinner>

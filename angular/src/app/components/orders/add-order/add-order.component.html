@@ -1,0 +1,151 @@
+<app-header></app-header>
+<section class="content-wrapper">
+    <div class="container">
+        <div class="form-section">
+            <div class="head-common">
+                <h4 class="comn_title">Add Order</h4>
+                <div class="btn-sec">
+                    <a routerLink="/orders" class="btn btn-primary btn-lg">All Orders</a>
+                </div>
+            </div>
+            <div class="form-section-inner">
+                <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                    <ng-container *ngIf="show_existing">
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <div class="ng-autocomplete">
+                                    <label class="">Customer Name<span class="required">*</span></label>
+                                    <ng-autocomplete [data]="customers_data" [searchKeyword]="keyword"
+                                        placeholder="Search Customer" (selected)='select_customer($event)'
+                                        [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+                                        formControlName="customer_name">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.name"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                    <span class="validation" *ngIf="err.customer_id">Please
+                                        select the customer
+                                        name.</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <span class="btn btn-primary" (click)="change_customer_type(1)">Add New</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!show_existing">
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <label class="">Customer Name<span class="required">*</span></label>
+                                <input type="text" class="form-control" formControlName="customer_id" maxlength="128">
+                                <span class="validation" *ngIf="err.customer_id">Please
+                                    enter the customer
+                                    name.</span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <span class="btn btn-primary" (click)="change_customer_type(2)">Show Existing</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="">Email </label>
+                                <input type="text" class="form-control" placeholder="" formControlName="email"
+                                    maxlength="255">
+                                <span class="validation" *ngIf="err.email">{{err.email}}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="">Phone <span class="required">*</span></label>
+                                <input type="text" class="form-control" placeholder="" formControlName="phone"
+                                    maxlength="12">
+                                <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container formArrayName="order_items">
+                        <div class="row" *ngFor="let row of order_items.controls; let i = index;" [formGroupName]="i">
+                            <div class="form-group col-md-6">
+                                <label class="">Item <span class="required">*</span></label>
+                                <!-- <select formControlName="item_name" class="form-control"
+                                    (change)="on_select_item($event, i)">
+                                    <option value="">- Select Items -</option>
+                                    <option *ngFor="let row of items_data" [attr.data-price]="row.price"
+                                        value="{{row.id}}">{{row.name}}</option>
+                                </select> -->
+                                <ngx-select-dropdown [multiple]="false" class="form-mlt-slect"
+                                    formControlName="item_name" [options]="items_data" [config]="itemSelectSettings"
+                                    (change)="on_select_item($event, i)">
+                                </ngx-select-dropdown>
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'item_name', 'required')">Please
+                                    select the item.</span>
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'item_id', 'checkDuplicateItem')">Duplicate
+                                    item name.</span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label class="">Unit Price <span class="required">*</span></label>
+                                <input type="text" class="form-control" (keyup)="change_item_price($event.target, i)"
+                                    formControlName="unit_price" maxlength="15" id="unit_price_{{i}}">
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'unit_price', 'required')">Required.</span>
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'unit_price', 'pattern')">Not
+                                    Valid.</span>
+                            </div>
+                            <div class="form-group col-md-1">
+                                <label class="">Quantity <span class="required">*</span></label>
+                                <input type="text" (keypress)="numberOnly($event)"
+                                    (keyup)="change_item_quantity($event.target, i)" class="form-control"
+                                    formControlName="quantity" maxlength="4">
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'quantity', 'required')">Required.</span>
+                                <span class="validation"
+                                    *ngIf="!validate_add_more_error(i, 'order_items', 'quantity', 'pattern')">Not
+                                    Valid.</span>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label class="">Total Price</label>
+                                <input type="text" class="form-control" formControlName="total_price" readonly="true">
+                            </div>
+                            <div class="col-md-1">
+                                <button title="remove" class="remove-btn btn-sm" *ngIf="order_items.controls.length > 1"
+                                    type="button" (click)="remove_items(i)"><i class="fa fa-minus"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" (click)="add_more_items()" class="add_btn"><i class="fa fa-plus"
+                                aria-hidden="true"></i> Add More
+                        </button>
+                    </ng-container>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="">Shipment Date</label>
+                            <input type="text" class="form-control" [dpDayPicker]="datePickerConfig" placeholder=""
+                                formControlName="shipment_date">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="">Total Amount <span class="required">*</span></label>
+                            <input type="text" class="form-control" placeholder="" formControlName="total_amount"
+                                maxlength="15" readonly="true">
+                            <span class="validation" *ngIf="!form_validate_error('total_amount', 'required')">Please
+                                enter the
+                                price.</span>
+                            <span class="validation" *ngIf="!form_validate_error('total_amount', 'pattern')">Please
+                                enter
+                                the valid price.</span>
+                        </div>
+                    </div>
+                    <div class="form-submit">
+                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
