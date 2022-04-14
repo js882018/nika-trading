@@ -1,11 +1,10 @@
 <app-header></app-header>
 <section class="content-wrapper">
-    <div class="container">
         <div class="user-list with-filter">
             <div class="head-common">
                 <h4 class="comn_title">All Orders</h4>
-                <div class="btn-sec">
-                    <a class="btn btn-primary btn-lg" routerLink="/orders/add">Add Order</a>
+                <div class="btn-sec" *ngIf="current_role != 2">
+                    <a class="btn btn-primary btn-lg" routerLink="/orders/add"><span class="ti-plus"></span> Add Order</a>
                 </div>
             </div>
             <div class="tabel-sec">
@@ -62,11 +61,8 @@
                     <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
                 </div>
             </div>
-        </div>
     </div>
 </section>
-
-<div class="container">
     <div class="modal" id="statusModal" [style.display]="showModal ? 'block' : 'none'">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -101,4 +97,3 @@
             </div>
         </div>
     </div>
-</div>

@@ -1,51 +1,63 @@
 <app-header></app-header>
 <section class="content-wrapper">
 
-        <div class="form-section">
-            <div class="head-common">
-                <h4 class="comn_title">Add Item</h4>
-                <div class="btn-sec">
-                    <a routerLink="/items" class="btn btn-primary btn-lg"><span class="ti-list"></span>  All Items</a>
+    <div class="form-section">
+        <div class="head-common">
+            <h4 class="comn_title">Add Item</h4>
+            <div class="btn-sec">
+                <a routerLink="/items" class="btn btn-primary btn-lg"><span class="ti-list"></span> All Items</a>
+            </div>
+        </div>
+        <div class="form-section-inner">
+            <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Name <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="name" maxlength="125">
+                        <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
+                            name.</span>
+                        <span class="validation" *ngIf="err.name">{{err.name}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">HSN/SAC <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.hsn_sac ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="hsn_sac" maxlength="35">
+                        <span class="validation" *ngIf="!form_validate_error('hsn_sac', 'required')">Please enter
+                            the
+                            HSN/SAC.</span>
+                        <span class="validation" *ngIf="err.hsn_sac">{{err.hsn_sac}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-section-inner">
-                <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">Name <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="name" maxlength="125">
-                            <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
-                                name.</span>
-                            <span class="validation" *ngIf="err.name">{{err.name}}</span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="">HSN/SAC <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.hsn_sac ? 'error' : ''" class="form-control"
-                                placeholder="" formControlName="hsn_sac" maxlength="35">
-                            <span class="validation" *ngIf="!form_validate_error('hsn_sac', 'required')">Please enter
-                                the
-                                HSN/SAC.</span>
-                            <span class="validation" *ngIf="err.hsn_sac">{{err.hsn_sac}}</span>
-                        </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Price <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.price ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="price" maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('price', 'required')">Please enter the
+                            price.</span>
+                        <span class="validation" *ngIf="!form_validate_error('price', 'pattern')">Please enter
+                            the valid price.</span>
+                        <span class="validation" *ngIf="err.price">{{err.price}}</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">Price <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.price ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="price" maxlength="12">
-                            <span class="validation" *ngIf="!form_validate_error('price', 'required')">Please enter the
-                                price.</span>
-                            <span class="validation" *ngIf="!form_validate_error('price', 'pattern')">Please enter
-                                the valid price.</span>
-                            <span class="validation" *ngIf="err.price">{{err.price}}</span>
+                    <div class="form-group col-md-6">
+                        <label>Item Image </label>
+                        <div class="browse-img">
+                            <img [src]="preview_image" id="show_image">
+                        </div>
+                        <span class="validation" *ngIf="image_validation">{{image_validation}}</span>
+                        <div class="browse-btn">
+                            <input class="form-control" name="image" type="file" #fileupload
+                                accept="image/jpeg,image/png" (change)="onFileChange($event)" />
+                            Browse
                         </div>
                     </div>
-                    <div class="form-submit">
-                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-    
+                </div>
+                <div class="form-submit">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </section>

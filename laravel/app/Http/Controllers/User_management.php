@@ -92,7 +92,7 @@ class User_management extends Controller {
                         'bank_account' => $request->input('bank_account'),
                         'ifsc' => $request->input('ifsc'),
                         'branch' => $request->input('branch'),
-                        'agency_id' => $request->input('agency_id')
+                        'agency_id' => $request->input('agency_id') ?: 0
                     );
                     crud_model::do_insert($user_details, 'user_details');
                 }

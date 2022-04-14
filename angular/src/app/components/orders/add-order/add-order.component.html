@@ -1,18 +1,17 @@
 <app-header></app-header>
 <section class="content-wrapper">
-    <div class="container">
         <div class="form-section">
             <div class="head-common">
                 <h4 class="comn_title">Add Order</h4>
                 <div class="btn-sec">
-                    <a routerLink="/orders" class="btn btn-primary btn-lg">All Orders</a>
+                    <a routerLink="/orders" class="btn btn-primary btn-lg"><span class="ti-plus"></span> All Orders</a>
                 </div>
             </div>
             <div class="form-section-inner">
                 <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
                     <ng-container *ngIf="show_existing">
-                        <div class="row">
-                            <div class="form-group col-md-8">
+                        <div class="show_existing">
+                            <div class="form-group show_existing_fld">
                                 <div class="ng-autocomplete">
                                     <label class="">Customer Name<span class="required">*</span></label>
                                     <ng-autocomplete [data]="customers_data" [searchKeyword]="keyword"
@@ -33,41 +32,49 @@
                                         name.</span>
                                 </div>
                             </div>
-                            <div class="form-group col-md-2">
-                                <span class="btn btn-primary" (click)="change_customer_type(1)">Add New</span>
+                            <div class="form-group show_existing_btn">
+                                <span class="btn btn-primary" (click)="change_customer_type(1)"><span class="ti-plus"></span> Add New</span>
                             </div>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="!show_existing">
-                        <div class="row">
-                            <div class="form-group col-md-8">
+                        <div class="show_existing">
+                            <div class="form-group show_existing_fld">
                                 <label class="">Customer Name<span class="required">*</span></label>
                                 <input type="text" class="form-control" formControlName="customer_id" maxlength="128">
                                 <span class="validation" *ngIf="err.customer_id">Please
                                     enter the customer
                                     name.</span>
                             </div>
-                            <div class="form-group col-md-2">
-                                <span class="btn btn-primary" (click)="change_customer_type(2)">Show Existing</span>
+                            <div class="form-group show_existing_btn">
+                                <span class="btn btn-primary" (click)="change_customer_type(2)"><span class="ti-minus"></span> Show Existing</span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-5">
                                 <label class="">Email </label>
                                 <input type="text" class="form-control" placeholder="" formControlName="email"
                                     maxlength="255">
                                 <span class="validation" *ngIf="err.email">{{err.email}}</span>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label class="">Phone <span class="required">*</span></label>
                                 <input type="text" class="form-control" placeholder="" formControlName="phone"
-                                    maxlength="12">
+                                    maxlength="65">
                                 <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="">Location <span class="required">*</span></label>
+                                <input type="text" class="form-control" placeholder="" formControlName="location"
+                                    maxlength="12">
+                                <span class="validation" *ngIf="err.location">{{err.location}}</span>
                             </div>
                         </div>
                     </ng-container>
                     <ng-container formArrayName="order_items">
+                        <div class="add_more_sec">
                         <div class="row" *ngFor="let row of order_items.controls; let i = index;" [formGroupName]="i">
+
                             <div class="form-group col-md-6">
                                 <label class="">Item <span class="required">*</span></label>
                                 <!-- <select formControlName="item_name" class="form-control"
@@ -112,16 +119,22 @@
                                 <label class="">Total Price</label>
                                 <input type="text" class="form-control" formControlName="total_price" readonly="true">
                             </div>
-                            <div class="col-md-1">
-                                <button title="remove" class="remove-btn btn-sm" *ngIf="order_items.controls.length > 1"
+                            <div class="col-md-1 text-right">
+                                <button title="remove" class="remove_btn " *ngIf="order_items.controls.length > 1"
                                     type="button" (click)="remove_items(i)"><i class="fa fa-minus"
-                                        aria-hidden="true"></i>
+                                        aria-hidden="true"></i> Remove
                                 </button>
                             </div>
                         </div>
+                    </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
                         <button type="button" (click)="add_more_items()" class="add_btn"><i class="fa fa-plus"
                                 aria-hidden="true"></i> Add More
                         </button>
+                        </div>
+                        </div>
+                        
                     </ng-container>
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -129,7 +142,7 @@
                             <input type="text" class="form-control" [dpDayPicker]="datePickerConfig" placeholder=""
                                 formControlName="shipment_date">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label class="">Total Amount <span class="required">*</span></label>
                             <input type="text" class="form-control" placeholder="" formControlName="total_amount"
                                 maxlength="15" readonly="true">
@@ -147,5 +160,5 @@
                 </form>
             </div>
         </div>
-    </div>
+
 </section>

@@ -22,6 +22,7 @@ class Customers extends Controller {
                 $row['phone'] = $value->phone;
                 $row['gst_no'] = $value->gst_no?:'--';
                 $row['location'] = $value->location?:'--';
+                $row['created_by'] = $value->user_name?:'--';
                 $rows[] = $row;
             }
         }
@@ -69,9 +70,9 @@ class Customers extends Controller {
 
     public function action_add(Request $request) {
         $rules = [
-            'email' => 'unique:customers,email',
+            'email' => 'bail|nullable|unique:customers,email',
             'phone' => 'bail|regex:/^[0-9]*$/|unique:customers,phone',
-            'gst_no' => 'unique:customers,gst_no',
+            'gst_no' => 'bail|nullable|unique:customers,gst_no',
         ];
         $validation = Validator::make($request->all(), $rules);
         if ($validation->fails()) {
@@ -114,9 +115,9 @@ class Customers extends Controller {
     public function action_edit(Request $request) {
         $id = $request->id;
         $rules = [
-            'email' => 'unique:customers,email,' . $id . ',id',
+            'email' => 'bail|nullable|unique:customers,email,' . $id . ',id',
             'phone' => 'bail|regex:/^[0-9]*$/|unique:customers,phone,' . $id . ',id',
-            'gst_no' => 'unique:customers,gst_no,' . $id . ',id'
+            'gst_no' => 'bail|nullable|unique:customers,gst_no,' . $id . ',id'
         ];
         $validation = Validator::make($request->all(), $rules);
         if ($validation->fails()) {

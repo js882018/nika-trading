@@ -21,7 +21,7 @@ class Transactions extends Model {
     }
 
     public static function __search_qry($request, $query) {
-        if ($request->input('user_id'))
+        if ($request->input('user_id') && $request->input('user_role') != 1)
             $query->where('wallet_trans.user_id', '=', $request->input('user_id'));
         if ($request->input('type'))
             $query->where('wallet_trans.transaction_type', '=', $request->input('type'));
@@ -49,11 +49,11 @@ class Transactions extends Model {
     }
 
     public static function get_tot_wallet_balance($request) {
-        $query = DB::table('wallet_transactions as wallet_trans')
-                ->select('wallet_trans.id', 'wallet_trans.user_id', DB::raw("SUM(wallet_trans.amount) as tot_wallet_amount"))
-                ->where('wallet_trans.user_id', '=', $request->input('user_id'));
+        $query = DB::table('wallet as wallet')
+                ->select('wallet.id', 'wallet.user_id', 'wallet.balance_amount')
+                ->where('wallet.user_id', '=', $request->input('user_id'));
         $result = $query->first();
-        return $result->tot_wallet_amount;
+        return empty($result->balance_amount) ? 0.00 : $result->balance_amount;
     }
 
     public static function get_data($id) {

@@ -25,9 +25,11 @@ class User_management extends Model {
     public static function __search_qry($request, $query) {
         if ($request->input('user_name'))
             $query->where('users.name', 'LIKE', "%" . $request->input('user_name') . "%");
-        if ($request->input('current_role') != 1)
+        if ($request->input('current_role') == 2) {
             $query->where('users.created_by', '=', $request->input('user_id'));
-        if ($request->input('current_role') == 1 && $request->input('user_role'))
+            $query->orWhere('user_details.agency_id', '=', $request->input('user_id'));
+        }
+        if ($request->input('current_role') == 1 && $request->input('user_role'))//role ilter
             $query->where('users.role', '=', $request->input('user_role'));
     }
 

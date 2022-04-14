@@ -12,7 +12,8 @@ class Items extends Model {
 
     private static function __query() {
         $query = DB::table('items as items')
-                ->select('items.id', 'items.name', 'items.hsn_sac', 'items.price', 'items.created_date');
+                ->select('items.id', 'items.name', 'items.hsn_sac', 'items.price',
+                'items.image_name', 'items.image_path', 'items.created_date');
         return $query;
     }
 

@@ -14,7 +14,7 @@
                     <div class="filter-group">
                         <select formControlName="user_role" class="form-control">
                             <option value="">- Select Role-</option>
-                            <option value="2">Agency</option>
+                            <option value="2" *ngIf="current_role == '1'">Agency</option>
                             <option value="3">Sales person</option>
                         </select>
                     </div>
@@ -49,7 +49,7 @@
                             <td [innerHTML]="row.approved"></td>
                             <td>
                                 <div class="comn-actions">
-                                    <a *ngIf="row.status != 1" (click)="approveRow(row.id)" title="Delete" class="trash-btn action-btns"
+                                    <a *ngIf="row.status != 1" (click)="approveRow(row.id)" title="Approve" class="status-btn action-btns"
                                         role="button"><span class="ti-trash"></span> <i class="fa fa-check"></i></a>
                                     <a routerLink="/user-management/edit/{{row.id}}" title="Edit"
                                         class="edit-btn action-btns" role="button">

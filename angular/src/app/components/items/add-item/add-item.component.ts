@@ -22,6 +22,9 @@ export class AddItemComponent implements OnInit {
   public form: any = {};
   public submitted = false;
 
+  public preview_image = 'assets/images/dummy.jpg';
+  public image_validation: any;
+
   constructor(private service: CommonService, private router: Router, private activatedRouter: ActivatedRoute,
     public fb: FormBuilder, private loader: NgxSpinnerService, private sanitizer: DomSanitizer,
     public login: LoginService) {
@@ -29,7 +32,8 @@ export class AddItemComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       hsn_sac: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]]
+      price: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]],
+      image: [''],
     });
   }
 
@@ -47,6 +51,33 @@ export class AddItemComponent implements OnInit {
     return true;
   }
 
+  onFileChange(event: any) {
+    this.image_validation = '';
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const file: any = (event.target as HTMLInputElement)?.files?.[0];
+      var mimeType = file.type;
+      var fileSize = file.size;
+      if (mimeType.match(/image\/*/) == null) {
+        this.image_validation = 'Please upload the valid image(png/jpg).';
+        return;
+      }
+      if (file < 5000000) {
+        this.image_validation = 'Maximum video upload size is 5 MB.';
+        return;
+      }
+      this.form.patchValue({
+        image: file
+      });
+      console.log(fileSize);
+      this.form.get('image').updateValueAndValidity();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.preview_image = reader.result as string;
+      };
+    }
+  }
+
   public async doFormAction() {
     this.err = {};
     this, this.service._gotoTop();
@@ -54,8 +85,13 @@ export class AddItemComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    var formData: any = new FormData();
+    formData.append("name", this.form.value.name);
+    formData.append("hsn_sac", this.form.value.hsn_sac);
+    formData.append("price", this.form.value.price);
+    formData.append("image", this.form.value.image);
     this.loader.show();
-    this.result = await this.service.form_action(this.form.value, '/items/add');
+    this.result = await this.service.form_action(formData, '/items/add');
     if (this.result.status == true) {
       this.loader.hide();
       setTimeout(() => {

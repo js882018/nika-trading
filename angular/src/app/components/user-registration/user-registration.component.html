@@ -1,95 +1,106 @@
-<section class="content-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8 login-form form-sec">
-                <h3 class="text-center">Nika Trading</h3>
-                <h4>User Registration</h4>
-                <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="">Name <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="name" maxlength="128">
-                            <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
-                                name.</span>
-                            <span class="validation" *ngIf="err.name">{{err.name}}</span>
-                        </div>
+<section class="login-wrapper user-reg-page">
+    <div class="login-form form-sec">
+        <div class="login-logo">
+            <a href="http://nikatrading.in"> <img src="../../../assets/images/logo-new.png" alt="Nika Trading logo"
+                    title="Nika Trading"></a>
+        </div>
+        <h4>User Registration</h4>
+        <div class="login-form-sec">
+            <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="">Name <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.name ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="name" maxlength="128">
+                        <span class="validation" *ngIf="!form_validate_error('name', 'required')">Please enter the
+                            name.</span>
+                        <span class="validation" *ngIf="err.name">{{err.name}}</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">Email <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.email ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="email" maxlength="255">
-                            <span class="validation" *ngIf="!form_validate_error('email', 'required')">Please enter the
-                                email address.</span>
-                            <span class="validation" *ngIf="!form_validate_error('email', 'email')">Please enter the
-                                valid
-                                email address.</span>
-                            <span class="validation" *ngIf="err.email">{{err.email}}</span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="">Password <span class="required">*</span></label>
-                            <input type="password" class="form-control" placeholder="" formControlName="password"
-                                maxlength="12">
-                            <span class="validation" *ngIf="!form_validate_error('password', 'required')">Please enter
-                                the
-                                password.</span>
-                            <span class="validation" *ngIf="err.password">{{err.password}}</span>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Email <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.email ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="email" maxlength="255">
+                        <span class="validation" *ngIf="!form_validate_error('email', 'required')">Please enter the
+                            email address.</span>
+                        <span class="validation" *ngIf="!form_validate_error('email', 'email')">Please enter the
+                            valid
+                            email address.</span>
+                        <span class="validation" *ngIf="err.email">{{err.email}}</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">Phone <span class="required">*</span></label>
-                            <input type="text" [ngClass]="err.phone ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="phone" maxlength="12">
-                            <span class="validation" *ngIf="!form_validate_error('phone', 'required')">Please enter the
-                                phone number.</span>
-                            <span class="validation" *ngIf="!form_validate_error('phone', 'pattern')">Please enter
-                                the valid phone number.</span>
-                            <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="">Bank A/C Number </label>
-                            <input type="text" [ngClass]="err.bank_account ? 'error' : ''" class="form-control"
-                                placeholder="" formControlName="bank_account" maxlength="25">
-                            <span class="validation" *ngIf="err.bank_account">{{err.bank_account}}</span>
-                        </div>
+                    <div class="form-group col-md-6">
+                        <label class="">Phone <span class="required">*</span></label>
+                        <input type="text" [ngClass]="err.phone ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="phone" maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'required')">Please enter the
+                            phone number.</span>
+                        <span class="validation" *ngIf="!form_validate_error('phone', 'pattern')">Please enter
+                            the valid phone number.</span>
+                        <span class="validation" *ngIf="err.phone">{{err.phone}}</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">IFSC Code </label>
-                            <input type="text" [ngClass]="err.ifsc ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="ifsc" maxlength="15">
-                            <span class="validation" *ngIf="err.ifsc">{{err.ifsc}}</span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="">Branch </label>
-                            <input type="text" [ngClass]="err.branch ? 'error' : ''" class="form-control" placeholder=""
-                                formControlName="branch" maxlength="65">
-                            <span class="validation" *ngIf="err.branch">{{err.branch}}</span>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Password <span class="required">*</span></label>
+                        <input type="password" class="form-control" placeholder="" formControlName="password"
+                            maxlength="12">
+                        <span class="validation" *ngIf="!form_validate_error('password', 'required')">Please enter
+                            the
+                            password.</span>
+                        <span class="validation" *ngIf="!form_validate_error('password', 'minlength')">Password
+                            should be min 6 characters long.</span>
+                        <span class="validation" *ngIf="!form_validate_error('password', 'maxlength')">Password
+                            can be max 12 characters long.</span>
+                        <span class="validation" *ngIf="err.password">{{err.password}}</span>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="">Address</label>
-                            <textarea rows="5" cols="80" class="form-control"
-                                formControlName="address"></textarea>
-                            <!-- <span class="validation" *ngIf="!form_validate_error('address', 'required')">Please enter
+                    <div class="form-group col-md-6">
+                        <label class="">Confirm Password </label>
+                        <input type="password" class="form-control" placeholder="" formControlName="confirm_password"
+                            maxlength="12">
+                        <span class="validation" *ngIf="form.hasError('notSame')">Your
+                            confirm password does not match.</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="">Bank A/C Number </label>
+                        <input type="text" [ngClass]="err.bank_account ? 'error' : ''" class="form-control"
+                            placeholder="" formControlName="bank_account" maxlength="25">
+                        <span class="validation" *ngIf="err.bank_account">{{err.bank_account}}</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="">IFSC Code </label>
+                        <input type="text" [ngClass]="err.ifsc ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="ifsc" maxlength="15">
+                        <span class="validation" *ngIf="err.ifsc">{{err.ifsc}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="">Branch </label>
+                        <input type="text" [ngClass]="err.branch ? 'error' : ''" class="form-control" placeholder=""
+                            formControlName="branch" maxlength="65">
+                        <span class="validation" *ngIf="err.branch">{{err.branch}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="">Address</label>
+                        <textarea rows="5" cols="80" class="form-control" formControlName="address"></textarea>
+                        <!-- <span class="validation" *ngIf="!form_validate_error('address', 'required')">Please enter
                                 the
                                 address.</span>
                             <span class="validation" *ngIf="err.address">{{err.address}}</span> -->
-                        </div>
                     </div>
-                    <div class="form-submit">
-                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-                    </div>
-                    <div class="reg-link">
-                        <a href="javascript:void(0);" routerLink="/login">Login</a>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-2"></div>
+                </div>
+                <div class="form-submit login_sbmt">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                </div>
+                <div class="reg-link">
+                    <a href="javascript:void(0);" routerLink="/login">Login</a>
+                </div>
+            </form>
         </div>
     </div>
 </section>

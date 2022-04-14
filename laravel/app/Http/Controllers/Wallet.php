@@ -109,26 +109,34 @@ class Wallet extends Controller {
     }
 
     public function action_withdrawal_send(Request $request) {
-        $data = array(
-            'user_id' => $request->input('user_id'),
-            'amount' => $request->input('withdrawal_amount'),
-            'transaction_type' => 2,
-            'status' => 1,
-            'created_date' => date('Y-m-d h:i:s')
-        );
-        $req = crud_model::do_insert($data, 'wallet_transactions');
-        if ($req) {
+        if ($request->input('withdrawal_amount') > $request->input('wallet_balance')) {
             return response()->json(array(
-                        'status' => true,
-                        'message' => 'Withdrawal request has been sent!.',
+                        'status' => false,
+                        'message' => array('withdrawal_amount' => 'Not sufficient balance to withdraw'),
                         'code' => 200
             ));
         } else {
-            return response()->json(array(
-                        'status' => false,
-                        'message' => 'Something went wrong! Please try again.',
-                        'code' => 202
-            ));
+            $data = array(
+                'user_id' => $request->input('user_id'),
+                'amount' => $request->input('withdrawal_amount'),
+                'transaction_type' => 2,
+                'status' => 1,
+                'created_date' => date('Y-m-d h:i:s')
+            );
+            $req = crud_model::do_insert($data, 'wallet_transactions');
+            if ($req) {
+                return response()->json(array(
+                            'status' => true,
+                            'message' => 'Withdrawal request has been sent!.',
+                            'code' => 200
+                ));
+            } else {
+                return response()->json(array(
+                            'status' => false,
+                            'message' => 'Something went wrong! Please try again.',
+                            'code' => 202
+                ));
+            }
         }
     }
 

@@ -17,6 +17,7 @@
                             <th>Phone</th>
                             <th>GST No</th>
                             <th>Location</th>
+                            <th>Created By</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                             <td>{{row.phone}}</td>
                             <td>{{row.gst_no}}</td>
                             <td>{{row.location}}</td>
+                            <td>{{row.created_by}}</td>
                             <td>
                                 <div class="comn-actions">
                                     <a routerLink="/customers/edit/{{row.id}}" title="Edit"

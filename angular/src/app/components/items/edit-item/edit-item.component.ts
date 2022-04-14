@@ -23,6 +23,9 @@ export class EditItemComponent implements OnInit {
   public form: any = {};
   public submitted = false;
 
+  public preview_image: any;
+  public image_validation: any;
+
   constructor(private service: CommonService, private router: Router, private activatedRouter: ActivatedRoute,
     public fb: FormBuilder, private loader: NgxSpinnerService, private sanitizer: DomSanitizer,
     public login: LoginService) {
@@ -31,7 +34,8 @@ export class EditItemComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       hsn_sac: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]]
+      price: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]],
+      image: ['']
     });
   }
 
@@ -62,11 +66,81 @@ export class EditItemComponent implements OnInit {
       this.loader.hide();
       if (this.result.status == true) {
         this.data = this.result.data;
+        this.preview_image = this.data.image_url != '' ? this.data.image_url : 'assets/images/dummy.jpg';
         this.form.patchValue({
           name: this.data.name,
           hsn_sac: this.data.hsn_sac,
-          price: this.data.price
+          price: this.data.price,
+          image: ''
         });
+      }
+    }
+  }
+
+  onFileChange(event: any) {
+    this.image_validation = '';
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const file: any = (event.target as HTMLInputElement)?.files?.[0];
+      var mimeType = file.type;
+      var fileSize = file.size;
+      if (mimeType.match(/image\/*/) == null) {
+        this.image_validation = 'Please upload the valid image(png/jpg).';
+        return;
+      }
+      if (file < 5000000) {
+        this.image_validation = 'Maximum video upload size is 5 MB.';
+        return;
+      }
+      this.form.patchValue({
+        image: file
+      });
+      console.log(fileSize);
+      this.form.get('image').updateValueAndValidity();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.preview_image = reader.result as string;
+      };
+    }
+  }
+
+  public delete_item_image() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+    }).then((action) => {
+      if (action.isConfirmed) {
+        this.delete_image_action();
+      }
+    });
+  }
+
+  public async delete_image_action() {
+    var formData = { id: this.id };
+    this.loader.show();
+    this.result = await this.service.form_action(formData, '/items/delete-image');
+    if (this.result == 'unknown_error') {
+      Swal.fire({ icon: 'error', title: 'Error!', text: 'Something went wrong. Please try again later.' });
+      this.loader.hide();
+    } else {
+      this.loader.hide();
+      if (this.result.status == false) {
+        if (this.result.code == 202) {
+          Swal.fire({ icon: 'error', title: 'Error!', text: this.result.message });
+        } else {
+          this.err = this.result.errors;
+        }
+      } else {
+        Swal.fire({ icon: 'success', title: 'Success!', text: this.result.message, timer: 1500 });
+        setTimeout(() => {
+          this.get_data();
+        }, 1500);
       }
     }
   }
@@ -78,8 +152,13 @@ export class EditItemComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    var formData: any = new FormData();
+    formData.append("name", this.form.value.name);
+    formData.append("hsn_sac", this.form.value.hsn_sac);
+    formData.append("price", this.form.value.price);
+    formData.append("image", this.form.value.image);
     this.loader.show();
-    this.result = await this.service.update_action(this.form.value, '/items/edit/' + this.id);
+    this.result = await this.service.form_action(formData, '/items/edit/' + this.id);
     if (this.result.status == true) {
       this.loader.hide();
       setTimeout(() => {

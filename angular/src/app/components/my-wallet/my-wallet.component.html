@@ -1,14 +1,12 @@
 <app-header></app-header>
 <section class="content-wrapper">
-    <div class="container">
         <div class="user-list with-filter">
             <div class="head-common">
-                <h4 *ngIf="total != 0" class="comn_title">Wallet Balance: {{wallet_balance}}</h4>
-                <h4 class="comn_title">All Transactions</h4>
+                  <h4 class="comn_title">All Transactions</h4>
                 <a *ngIf="total != 0" (click)="show_modal()" class="btn btn-primary btn-lg"><span class="ti-list"></span>Create Withdrawal
                     Request</a>
             </div>
-            <div class="tabel-sec">
+            <div class="wallet_bal"> <h4 *ngIf="total != 0" class="comn_title">Wallet Balance: {{wallet_balance}}</h4></div>          <div class="tabel-sec">
                 <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -40,20 +38,18 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
-
-<div class="container">
     <div class="modal" id="withdrawalModal" [style.display]="showModal ? 'block' : 'none'">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">Send Withdrawal Request</h4>
-                    <h5 class="comn_title">Wallet Balance: {{wallet_balance}}</h5>
+                 
                     <button type="button" class="close" data-dismiss="modal" (click)="hide_modal()">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <h5 class="comn_title">Wallet Balance: {{wallet_balance}}</h5>
                     <form [formGroup]="form" (ngSubmit)="doFormAction()" action="javascript:void(0);">
                         <div class="row">
                             <div class="form-group col-md-12">
@@ -62,8 +58,8 @@
                                 <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'required')">This field is
                                     required.</span>
                                 <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'pattern')">Invalid Amount.</span>
+                                <span class="validation" *ngIf="err.withdrawal_amount">Not sufficient balance to withdraw.</span>
                                 <!-- <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'checkWithdrawalAmount')">Not sufficient balance to withdraw.</span> -->
-                                <span class="validation" *ngIf="err.withdrawal_amount">Not sufficient balance to withdraw</span>
                             </div>
                         </div>
                         <div class="form-submit">
@@ -74,4 +70,3 @@
             </div>
         </div>
     </div>
-</div>

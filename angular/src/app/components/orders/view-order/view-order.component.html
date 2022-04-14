@@ -1,15 +1,14 @@
 <app-header></app-header>
 <section class="content-wrapper">
-    <div class="container">
         <div class="form-section">
             <div class="head-common">
                 <h4 class="comn_title">View Order Details</h4>
                 <div class="btn-sec">
-                    <a routerLink="/orders" class="btn btn-primary btn-lg">All Orders</a>
+                    <a routerLink="/orders" class="btn btn-primary btn-lg"><span class="ti-list"></span> All Orders</a>
                 </div>
             </div>
-            <div class="view-data row">
-                <div class="col-md-12">
+            <div class="view-data">
+     
                     <div class="view-group">
                         <label>Order ID: </label>
                         <span>{{data.reference_id}}</span>
@@ -37,9 +36,8 @@
                     <div class="view-group">
                         <label>Created Date: </label>
                         <span>{{data.created_date}}</span>
-                    </div>
-                </div>
-                <div class="col-md-12">
+                            </div>
+               </div>
                     <div class="tabel-sec">
                         <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -62,8 +60,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
+       
+                
+           
         </div>
-    </div>
 </section>

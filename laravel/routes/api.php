@@ -58,8 +58,9 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/items/get-all-data', [Items::class, 'get_all_data']);
     Route::get('/items/get-data/{id}', [Items::class, 'get_data']);
     Route::post('/items/add', [Items::class, 'action_add']);
-    Route::put('/items/edit/{id}', [Items::class, 'action_edit']);
+    Route::post('/items/edit/{id}', [Items::class, 'action_edit']);
     Route::delete('/items/{id}', [Items::class, 'action_delete']);
+    Route::post('/items/delete-image', [Items::class, 'action_delete_image']);
     /* Orders */
     Route::post('/orders', [Orders::class, 'index']);
     Route::post('/orders/add', [Orders::class, 'action_add']);
@@ -74,6 +75,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('/withdrawal-request/send', [Wallet::class, 'action_withdrawal_send']);
     Route::post('/wallet-transactions', [Wallet::class, 'action_wallet_transactions']);
     Route::get('/wallet-transactions/get-data/{id}', [Wallet::class, 'get_wallet_transactions_data']);
-    /*Profile*/
+    /* Profile */
     Route::put('/profile/update/{id}', [Profile::class, 'action_edit']);
 });

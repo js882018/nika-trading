@@ -49,10 +49,10 @@ class Login extends Controller {
                     ));
                 } else {
                     return response()->json(array(
-                                'status' => true,
+                                'status' => false,
                                 'message' => 'Your account is not activated!',
                                 'data' => $result,
-                                'code' => 200
+                                'code' => 202
                     ));
                 }
             } else {

@@ -51,6 +51,7 @@ export class AddOrderComponent implements OnInit {
       customer_id: [''],
       email: [''],
       phone: [''],
+      location: [''],
       customer_type: ['2'],//1 - New, 2 -Existing
       total_amount: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]],
       shipment_date: [this.curentDate],

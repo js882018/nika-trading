@@ -26,6 +26,9 @@ export class ViewRequestComponent implements OnInit {
   public filename: any = {};
   public submitted = false;
 
+  public attach_validation: any;
+  public attach_name: any;
+
   constructor(private service: CommonService, private router: Router, private activatedRouter: ActivatedRoute,
     public fb: FormBuilder, private loader: NgxSpinnerService, private sanitizer: DomSanitizer,
     public login: LoginService) {
@@ -67,17 +70,24 @@ export class ViewRequestComponent implements OnInit {
   }
 
   onFileChange(event: any) {
-    if (event.target.files[0].size < 5000000) {//10 mb
-      const file = (event.target as HTMLInputElement)?.files?.[0];
-      this.form.patchValue({
-        attachment: file
-      });
-      // console.log(file);
-      this.form.get('attachment').updateValueAndValidity()
-      //this.filename = file.name;
-    } else {
-      Swal.fire({ icon: 'warning', title: 'Alert!', text: 'Maximum video upload size is 5 MB' });
+    this.attach_name = '';
+    this.attach_validation = '';
+    const file: any = (event.target as HTMLInputElement)?.files?.[0];
+    var mimeType = file.type;
+    var fileSize = file.size;
+    if (mimeType.match(/^image\/(gif|jpe?g|png)$|^application\/(pdf|msword)$|^text\/plain$/i) == null) {
+      this.attach_validation = 'Please upload the valid attachment.';
+      return;
     }
+    if (file < 5000000) {
+      this.attach_validation = 'Maximum video upload size is 5 MB.';
+      return;
+    }
+    this.form.patchValue({
+      attachment: file
+    });
+    this.form.get('attachment').updateValueAndValidity()
+    this.attach_name = file.name;
   }
 
   get form_errors() {
@@ -96,6 +106,7 @@ export class ViewRequestComponent implements OnInit {
   }
 
   public async doFormAction() {
+    console.log(this.attach_validation);
     this.err = {};
     this, this.service._gotoTop();
     this.submitted = true;

@@ -7,6 +7,7 @@ use App\Models\Crud as crud_model;
 use App\Models\Items as items_model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use File;
 
 class Items extends Controller {
 
@@ -51,6 +52,11 @@ class Items extends Controller {
     public function get_data(Request $request) {
         $result = items_model::get_data($request->id);
         if (!empty($result)) {
+            if (($_SERVER['SERVER_NAME']) == "127.0.0.1") {
+                $result->image_url = $result->image_path ? url($result->image_path) : '';
+            } else {
+                $result->image_url = $result->image_path ? url('public/' . $result->image_path) : '';
+            }
             return response()->json(array(
                         'status' => true,
                         'data' => $result,
@@ -66,6 +72,7 @@ class Items extends Controller {
     }
 
     public function action_add(Request $request) {
+        $next_id = crud_model::getNextId('orders');
         $rules = [
             'name' => 'unique:items,name',
             'hsn_sac' => 'unique:items,hsn_sac',
@@ -80,10 +87,13 @@ class Items extends Controller {
                         'code' => 200
             ));
         } else {
+            $uploaded_data = $this->fileUpload($request, 'image', 'uploads/items/' . $next_id);
             $data = array(
                 'name' => $request->input('name'),
                 'hsn_sac' => $request->input('hsn_sac'),
                 'price' => $request->input('price'),
+                'image_name' => $uploaded_data != '' ? $uploaded_data['file_name'] : '',
+                'image_path' => $uploaded_data != '' ? $uploaded_data['file_path'] : '',
                 'created_date' => date('Y-m-d h:i:s')
             );
             $req = crud_model::do_insert($data, 'items');
@@ -119,12 +129,17 @@ class Items extends Controller {
                         'code' => 200
             ));
         } else {
+            $uploaded_data = $this->fileUpload($request, 'image', 'uploads/items/' . $id);
             $data = array(
                 'name' => $request->input('name'),
                 'hsn_sac' => $request->input('hsn_sac'),
                 'price' => $request->input('price'),
                 'updated_date' => date('Y-m-d h:i:s')
             );
+            if ($uploaded_data != '') {
+                $data['image_name'] = $uploaded_data['file_name'];
+                $data['image_path'] = $uploaded_data['file_path'];
+            }
             $req = crud_model::do_update($data, 'items', array('id' => $id));
             if ($req) {
                 return response()->json(array(
@@ -150,6 +165,24 @@ class Items extends Controller {
             return response()->json(array(
                         'status' => true,
                         'message' => 'Data has been deleted successfully.',
+                        'code' => 200
+            ));
+        } else {
+            return response()->json(array(
+                        'status' => false,
+                        'message' => 'Sorry! Something went wrong. Please try again later.',
+                        'code' => 202
+            ));
+        }
+    }
+
+    public function action_delete_image(Request $request) {
+        $result = crud_model::do_update(array('image_name' => '', 'image_path' => ''), 'items', array('id' => $request->id));
+        if (!empty($result)) {
+            File::deleteDirectory(public_path('uploads/items/' . $request->id));
+            return response()->json(array(
+                        'message' => 'Item image has been deleted successfully.',
+                        'status' => true,
                         'code' => 200
             ));
         } else {

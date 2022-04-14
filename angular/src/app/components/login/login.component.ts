@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
       this.loader.hide();
       if (this.result.code == 202) {
         this.err = {};
-        Swal.fire({ icon: 'error', title: 'Error!', text: this.result.message, timer: 1500 });
+        Swal.fire({ icon: 'error', title: 'Error!', text: this.result.message, timer: 2000 });
       } else {
         this.err = this.result.message;
       }

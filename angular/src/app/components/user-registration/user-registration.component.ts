@@ -26,16 +26,23 @@ export class UserRegistrationComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]],
+      confirm_password: [""],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: [''],
       bank_account: [''],
       ifsc: [''],
       branch: ['']
-    });
+    }, { validator: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
+  }
+
+  passwordMatchValidator(group: FormGroup) {
+    const newPass = group.controls['password'].value;
+    const confirmPass = group.controls['confirm_password'].value;
+    return newPass === confirmPass ? null : { notSame: true };
   }
 
   get form_errors() {

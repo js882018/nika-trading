@@ -3,7 +3,7 @@
         <div class="col-md-6 mobile-logo-sec">
             <a routerLink="/dashboard">
                 <!--<span style="text-align:center;">HSquare</span>-->
-                <img src="../../../assets/images/logo.png" alt="Nika Trading logo" title="Nika Trading">
+                <img src="../../../assets/images/logo-new.png" alt="Nika Trading logo" title="Nika Trading">
             </a>
             <span class="welcome-msg">Welcome {{current_name}}</span>
         </div>
@@ -14,6 +14,8 @@
                     <span class="ti-close"></span>
                 </button>
                 <ul class="menubar">
+                    <li class="Profile" title="Edit Profile"> <a routerLink="/edit-profile" routerLinkActive="menu_active" class="navilinks"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </a></li>
                     <li class="logout"><a (click)="doLogout()"><i class="fa fa-sign-out"
                                 aria-hidden="true"></i>Logout</a></li>
                 </ul>
@@ -37,7 +39,7 @@
          ">
             <a routerLink="/dashboard">
                 <!--<span style="text-align:center;">HSquare</span>-->
-                <img src="../../../assets/images/logo.png" alt="Nika Trading logo" title="Nika Trading">
+                <img src="../../../assets/images/logo-new.png" alt="Nika Trading logo" title="Nika Trading">
             </a>
 
         </div>
@@ -65,24 +67,21 @@
                 </li>
                 <li class="parent_mnu">
                     <a routerLink="/orders" routerLinkActive="menu_active" class="navilinks"><span
-                            class="ti-menu-alt menu-icons"></span> Orders</a>
+                            class="ti-bag menu-icons"></span> Orders</a>
                 </li>
                 <li class="parent_mnu" *ngIf="role == 1">
                     <a routerLink="/user-wallet" routerLinkActive="menu_active" class="navilinks"><span
-                            class="ti-menu-alt menu-icons"></span> User Wallet</a>
+                            class="ti-wallet menu-icons"></span> User Wallet</a>
                 </li>
                 <li class="parent_mnu" *ngIf="role == 1">
                     <a routerLink="/withdrawal-requests" routerLinkActive="menu_active" class="navilinks"><span
                             class="ti-menu-alt menu-icons"></span> Withdrawal Requests</a>
                 </li>
-                <li class="parent_mnu" *ngIf="role != 1">
+                <li class="parent_mnu" *ngIf="role == 3">
                     <a routerLink="/my-wallet" routerLinkActive="menu_active" class="navilinks"><span
-                            class="ti-menu-alt menu-icons"></span> My Wallet</a>
+                            class="ti-wallet menu-icons"></span> My Wallet</a>
                 </li>
-                <li class="parent_mnu">
-                    <a routerLink="/edit-profile" routerLinkActive="menu_active" class="navilinks"><span
-                            class="ti-menu-alt menu-icons"></span> Edit Profile</a>
-                </li>
+                
                 <!-- <li class="parent_mnu">
                     <a href="javascript:" class="parent navilinks collapsed" data-toggle="collapse" data-target="#administration_menu" aria-expanded="true" aria-controls="menu3"><span class="ti-user menu-icons"></span>  Administration <span class="ti-angle-down"></span> </a>
                     <ul [routerLinkActive]="['show']" class="nav-second-level collapse " id="administration_menu" data-parent="#side-menu2">
