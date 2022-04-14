@@ -37,7 +37,7 @@ export class MyWalletComponent implements OnInit {
 
     this.form = this.fb.group({
       user_id: this.login.getSessionData('session_id'),
-      withdrawal_amount: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$'), this.checkWithdrawalAmount()]],
+      withdrawal_amount: ['', [Validators.required, Validators.pattern('\^([\\d]{0,10})(\\.|$)([\\d]{1,4}|)$')]],
     });
   }
 
@@ -45,14 +45,14 @@ export class MyWalletComponent implements OnInit {
     this.data_list();
   }
 
-  checkWithdrawalAmount(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value !== '' && this.wallet_balance < control.value) {
-        return { 'checkWithdrawalAmount': true };
-      }
-      return null;
-    };
-  }
+  // checkWithdrawalAmount(): ValidatorFn {
+  //   return (control: AbstractControl): { [key: string]: boolean } | null => {
+  //     if (control.value !== '' && this.wallet_balance < control.value) {
+  //       return { 'checkWithdrawalAmount': true };
+  //     }
+  //     return null;
+  //   };
+  // }
 
   public async data_list() {
     this.err = {};
@@ -75,6 +75,7 @@ export class MyWalletComponent implements OnInit {
       this.datalist = this.result.data;
       this.total = this.result.total;
       this.wallet_balance = this.result.tot_wallet_balance;
+      console.log(this.wallet_balance);
     }
   }
 
@@ -120,9 +121,14 @@ export class MyWalletComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.result = await this.service.form_action(this.form.value, '/withdrawal-request/send');
-    this.showModal = false;
+    var formData = {
+      user_id: this.form.value.user_id,
+      withdrawal_amount: this.form.value.withdrawal_amount,
+      wallet_balance: this.wallet_balance,
+    }
+    this.result = await this.service.form_action(formData, '/withdrawal-request/send');
     if (this.result.status == true) {
+      this.showModal = false;
       this.spinner.hide();
       setTimeout(() => {
         window.location.reload();
@@ -131,6 +137,7 @@ export class MyWalletComponent implements OnInit {
     } else {
       this.spinner.hide();
       if (this.result.code == 202) {
+        this.showModal = false;
         this.err = {};
         Swal.fire({ icon: 'error', title: 'Error!', text: this.result.message, timer: 1500 });
       } else {

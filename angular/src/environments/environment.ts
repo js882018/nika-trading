@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8000/api',
+  // apiUrl: 'http://nikatrading.in/backend/v2/api',
 };
 
 /*

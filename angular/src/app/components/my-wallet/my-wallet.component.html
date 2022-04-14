@@ -62,7 +62,8 @@
                                 <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'required')">This field is
                                     required.</span>
                                 <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'pattern')">Invalid Amount.</span>
-                                <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'checkWithdrawalAmount')">Not sufficient balance to withdraw.</span>
+                                <!-- <span class="validation" *ngIf="!form_validate_error('withdrawal_amount', 'checkWithdrawalAmount')">Not sufficient balance to withdraw.</span> -->
+                                <span class="validation" *ngIf="err.withdrawal_amount">Not sufficient balance to withdraw</span>
                             </div>
                         </div>
                         <div class="form-submit">
