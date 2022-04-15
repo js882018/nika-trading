@@ -43,7 +43,7 @@ class Wallet extends Controller {
                 $row['user_id'] = $value->user_id;
                 $row['user_name'] = $value->user_name;
                 $row['status'] = $value->status == 1 ? '<span class="btn_pending">Pending</span>' : '<span class="btn_success">Success</span>';
-                $row['type'] = $value->transaction_type == 1 ? '<span class="btn_credit">Credit</span>' : '<span class="btn_debit">Debit</span>';
+                $row['type'] = $value->transaction_type == 1 ? '<span class="btn_credit">Credit [Order ID: ' . $value->reference_id . ']</span>' : '<span class="btn_debit">Debit</span>';
                 $row['amount'] = $value->amount;
                 $row['created_date'] = date('d-m-Y', strtotime($value->created_date));
                 $rows[] = $row;
@@ -92,9 +92,9 @@ class Wallet extends Controller {
         );
         $req = crud_model::do_update($data, 'wallet_transactions', array('id' => $request->id));
         if ($req) {
-            if ($data['status'] == 2 && $requesed_data->status == 1) {
-                $this->update_wallet_amount($request->input('amount'), $request->input('user_id'));
-            }
+//            if ($data['status'] == 2 && $requesed_data->status == 1) {
+//                $this->update_wallet_amount($request->input('amount'), $request->input('user_id'));
+//            }
             return response()->json(array(
                         'status' => true,
                         'message' => 'Data has been updated successfully.',
@@ -126,6 +126,8 @@ class Wallet extends Controller {
             );
             $req = crud_model::do_insert($data, 'wallet_transactions');
             if ($req) {
+                //Debit the wallet amount, when the user send the withdrawal
+                $this->update_wallet_amount($request->input('withdrawal_amount'), $request->input('user_id'));
                 return response()->json(array(
                             'status' => true,
                             'message' => 'Withdrawal request has been sent!.',
@@ -169,7 +171,7 @@ class Wallet extends Controller {
             ));
         }
     }
-    
+
     public function action_delete_attachment(Request $request) {
         $result = crud_model::do_update(array('attachment_name' => '', 'attachment_path' => ''), 'wallet_transactions', array('id' => $request->id));
         if (!empty($result)) {

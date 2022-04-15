@@ -13,10 +13,11 @@ class Transactions extends Model {
     private static function __query() {
         $query = DB::table('wallet_transactions as wallet_trans')
                 ->leftJoin('users as users', 'users.id', '=', 'wallet_trans.user_id')
-                ->select('wallet_trans.id', 'wallet_trans.user_id', 'wallet_trans.amount as amount',
+                ->leftJoin('orders as orders', 'orders.id', '=', 'wallet_trans.order_id')
+                ->select('wallet_trans.id', 'wallet_trans.order_id', 'wallet_trans.user_id', 'wallet_trans.amount as amount',
                 'wallet_trans.status', 'wallet_trans.transaction_type', 'wallet_trans.created_date',
                 'wallet_trans.approved_date', 'wallet_trans.attachment_name', 'wallet_trans.attachment_path',
-                'wallet_trans.comments', 'users.name as user_name');
+                'wallet_trans.comments', 'users.name as user_name', 'orders.reference_id');
         return $query;
     }
 

@@ -29,7 +29,7 @@ class User_management extends Model {
             $query->where('users.created_by', '=', $request->input('user_id'));
             $query->orWhere('user_details.agency_id', '=', $request->input('user_id'));
         }
-        if ($request->input('current_role') == 1 && $request->input('user_role'))//role ilter
+        if ($request->input('current_role') == 1 && $request->input('user_role'))//role filter
             $query->where('users.role', '=', $request->input('user_role'));
     }
 
@@ -66,6 +66,14 @@ class User_management extends Model {
         $query = self::__query();
         if ($role)
             $query->where('users.role', '=', $role);
+        return $query->get();
+    }
+
+    public static function get_all_sales_person($request) {
+        $query = self::__query();
+        $query->where('users.role', '=', 3);
+        if ($request->input('user_role') == 2)
+            $query->where('user_details.agency_id', '=', $request->input('user_id'));
         return $query->get();
     }
 

@@ -235,6 +235,23 @@ class User_management extends Controller {
         }
     }
 
+    public function get_sales_person(Request $request) {
+        $result = users_model::get_all_sales_person($request);
+        if (!empty($result)) {
+            return response()->json(array(
+                        'status' => true,
+                        'data' => $result,
+                        'code' => 200
+            ));
+        } else {
+            return response()->json(array(
+                        'status' => false,
+                        'message' => 'No Data Found',
+                        'code' => 404
+                            ), 404);
+        }
+    }
+
     public function action_register(Request $request) {
         $rules = [
             'email' => 'unique:users,email',

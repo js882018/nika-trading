@@ -46,6 +46,7 @@ Route::group(['middleware' => 'api'], function () {
     /* user-management */
     Route::post('/user-management', [User_management::class, 'index']);
     Route::get('/users/get-agencies', [User_management::class, 'get_agencies']);
+    Route::post('/users/get-sales-person', [User_management::class, 'get_sales_person']);
     Route::get('/user-management/get-data/{id}', [User_management::class, 'get_data']);
     Route::post('/user-management/add', [User_management::class, 'action_add']);
     Route::put('user-management/edit/{id}', [User_management::class, 'action_edit']);

@@ -7,6 +7,29 @@
                     <a class="btn btn-primary btn-lg" routerLink="/orders/add"><span class="ti-plus"></span> Add Order</a>
                 </div>
             </div>
+            <div class="filter_sec">
+                <form [formGroup]="search_form" (ngSubmit)="doSearch()" class="form_filter" id="form_filter"
+                    action="javascript:void(0);">
+                    <div class="filter-group">
+                        <input class="form-control" type="text" formControlName="order_id" placeholder="Order ID">
+                    </div>
+                    <div class="filter-group" *ngIf="current_role == 1">
+                        <select formControlName="agency" class="form-control">
+                            <option value="">- Select Agency-</option>
+                            <option *ngFor="let row of agencies" value="{{row.id}}">{{row.user_name}}</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" *ngIf="current_role != 3">
+                        <select formControlName="sales_person" class="form-control">
+                            <option value="">- Select Sales Person -</option>
+                            <option *ngFor="let row of sales_person" value="{{row.id}}">{{row.user_name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-submit">
+                        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
             <div class="tabel-sec">
                 <table class="table tb_captain table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>

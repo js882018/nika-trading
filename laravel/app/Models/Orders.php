@@ -22,18 +22,24 @@ class Orders extends Model {
     }
 
     public static function __search_qry($request, $query) {
-        if ($request->input('user_role') == 2) {
-            $agent_users = crud_model::get_result('users', array('created_by' => $request->input('user_id')));
-            if (!empty($agent_users)) {
-                $users_id = array_column($agent_users, 'id');
+        if ($request->input('user_role') == 2 || $request->input('agency')) {
+//            $agent_users = crud_model::get_result('users', array('created_by' => $request->input('user_id')));
+            $agency_id = $request->input('user_role') == 2 ? $request->input('user_id') : $request->input('agency');
+            $agent_slaes_users = crud_model::get_result('user_details', array('agency_id' => $agency_id));
+            if (!empty($agent_slaes_users)) {
+                $users_id = array_column($agent_slaes_users, 'user_id');
             } else {
                 $users_id = array(0);
             }
-            $query->where('orders.created_by', '=', $request->input('user_id'));
-            $query->orWhereIn('orders.created_by', $users_id);
+//            $query->where('orders.created_by', '=', $request->input('user_id'));
+            $query->whereIn('orders.created_by', $users_id);
         }
         if ($request->input('user_role') == 3)
             $query->where('orders.created_by', '=', $request->input('user_id'));
+        if ($request->input('order_id'))
+            $query->where('orders.reference_id', '=', $request->input('order_id'));
+        if ($request->input('sales_person'))
+            $query->where('orders.created_by', '=', $request->input('sales_person'));
     }
 
     public static function datatable($request) {

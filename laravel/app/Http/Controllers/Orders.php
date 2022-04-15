@@ -82,6 +82,9 @@ class Orders extends Controller {
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),
                     'location' => $request->input('location'),
+                    'gst_no' => $request->input('gst_no'),
+                    'landmark' => $request->input('landmark'),
+                    'address' => $request->input('address'),
                     'created_date' => date('Y-m-d h:i:s'),
                     'created_by' => $request->input('user_id')
                 );

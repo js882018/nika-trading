@@ -22,6 +22,9 @@ export class OrdersComponent implements OnInit {
   public datalist: any = [];
   public submitted = false;
 
+  public agencies: any = [];
+  public sales_person: any = [];
+
   search_term = '';
   per_page = 10;
   page = 1;
@@ -32,7 +35,11 @@ export class OrdersComponent implements OnInit {
   public showModal: boolean = false;
   constructor(public login: LoginService, private service: CommonService, private router: Router, public fb: FormBuilder, private spinner: NgxSpinnerService) {
     this.service.setTitle('All Orders | Nika Trading');
-    this.search_form = this.fb.group({ name: [''] });
+    this.search_form = this.fb.group({
+      order_id: [''],
+      agency: [''],
+      sales_person: ['']
+    });
 
     this.current_role = this.login.getSessionData('session_role');
     this.form = this.fb.group({
@@ -42,6 +49,46 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.get_agencies();
+    this.get_sales_person();
+    this.data_list();
+  }
+
+  public async get_agencies() {
+    var formData = {
+      search: ''
+    };
+    this.spinner.show();
+    this.result = await this.service.get_action(formData, '/users/get-agencies');
+    if (this.result == 'unknown_error') {
+      this.spinner.hide();
+    } else {
+      this.spinner.hide();
+      if (this.result.status == true) {
+        this.agencies = this.result.data;
+      }
+    }
+  }
+
+  public async get_sales_person() {
+    var formData = {
+      user_role: this.login.getSessionData('session_role'),
+      user_id: this.login.getSessionData('session_id')
+    };
+    this.spinner.show();
+    this.result = await this.service.form_action(formData, '/users/get-sales-person');
+    if (this.result == 'unknown_error') {
+      this.spinner.hide();
+    } else {
+      this.spinner.hide();
+      if (this.result.status == true) {
+        this.sales_person = this.result.data;
+      }
+    }
+  }
+
+  doSearch() {
+    this.page = 0;
     this.data_list();
   }
 
@@ -54,7 +101,10 @@ export class OrdersComponent implements OnInit {
       sort: 'id',
       dir: 'desc',
       user_id: this.login.getSessionData('session_id'),
-      user_role: this.current_role
+      user_role: this.current_role,
+      order_id: this.search_form.value.order_id,
+      agency: this.search_form.value.agency,
+      sales_person: this.search_form.value.sales_person
     };
     this.spinner.show();
     this.result = await this.service.form_action(formData, '/orders');
