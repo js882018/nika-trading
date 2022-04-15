@@ -31,6 +31,7 @@ import { ViewRequestComponent } from './components/withdrawal-requests/view-requ
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ViewOrderComponent } from './components/orders/view-order/view-order.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [DashboardGuard], data: { page: 'login' } },
@@ -62,6 +63,7 @@ const routes: Routes = [
   { path: 'my-wallet', component: MyWalletComponent, canActivate: [AuthGuard], data: { page: 'dashboard' } },
   { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard], data: { page: 'dashboard' } },
   { path: 'not-found', component: NotFoundComponent, canActivate: [AuthGuard], data: { page: 'dashboard' } },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], data: { page: 'dashboard' } },
   
 ];
 

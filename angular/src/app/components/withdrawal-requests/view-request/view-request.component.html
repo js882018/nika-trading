@@ -30,11 +30,16 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label class="">Attachment </label><br>
-                        <div class="browse-btn">
+                        <span class="delete-img" title="Delete" *ngIf="data.attachment_path != ''"
+                            (click)="delete_attachment()"><i class="fa fa-trash"></i></span>
+                        <span *ngIf="data.attachment_path != ''">{{data.attachment_name}}</span>
+                        <span class="btn btn-download" *ngIf="data.attachment_path != ''"
+                            (click)="downloadAttachments(data.attachment_path, data.attachment_name)">Download</span>
+                        <div class="browse-btn" *ngIf="data.attachment_path == ''">
                             <input class="form-control" name="attachment" type="file" #fileupload
                                 accept="image/jpeg,image/png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                 (change)="onFileChange($event)" />
-                                Browse
+                            Browse
                         </div>
                         <span class="attach-name" *ngIf="attach_name">{{attach_name}}</span>
                         <span class="validation" *ngIf="attach_validation">{{attach_validation}}</span>
@@ -65,10 +70,10 @@
                     </div>
                     <div class="view-group">
                         <label>Attachment: </label>
-                        <span *ngIf="data.attachment_name != ''">{{data.attachment_name}}</span>
-                        <span class="btn btn-download" *ngIf="data.attachment_name != ''"
+                        <span *ngIf="data.attachment_path != ''">{{data.attachment_name}}</span>
+                        <span class="btn btn-download" *ngIf="data.attachment_path != ''"
                             (click)="downloadAttachments(data.attachment_path, data.attachment_name)">Download</span>
-                        <span *ngIf="data.attachment_name == ''">--</span>
+                        <span *ngIf="data.attachment_path == ''">--</span>
                     </div>
                 </div>
             </div>

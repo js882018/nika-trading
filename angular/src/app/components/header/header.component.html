@@ -81,6 +81,10 @@
                     <a routerLink="/my-wallet" routerLinkActive="menu_active" class="navilinks"><span
                             class="ti-wallet menu-icons"></span> My Wallet</a>
                 </li>
+                <li class="parent_mnu" *ngIf="role == 1">
+                    <a routerLink="/settings" routerLinkActive="menu_active" class="navilinks"><span
+                            class="ti-menu-alt menu-icons"></span> Settings</a>
+                </li>
                 
                 <!-- <li class="parent_mnu">
                     <a href="javascript:" class="parent navilinks collapsed" data-toggle="collapse" data-target="#administration_menu" aria-expanded="true" aria-controls="menu3"><span class="ti-user menu-icons"></span>  Administration <span class="ti-angle-down"></span> </a>

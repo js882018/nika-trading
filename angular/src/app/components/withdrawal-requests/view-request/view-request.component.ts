@@ -63,7 +63,7 @@ export class ViewRequestComponent implements OnInit {
         this.form.patchValue({
           amount: this.data.amount,
           status: this.data.status,
-          comments: this.data.comments
+          comments: this.data.comments === null ? '' : this.data.comments
         });
       }
     }
@@ -103,6 +103,47 @@ export class ViewRequestComponent implements OnInit {
 
   public downloadAttachments(fileUrl: string, fileName: string) {
     FileSaver.saveAs(fileUrl, fileName);
+  }
+
+  public delete_attachment(){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+    }).then((action) => {
+      if (action.isConfirmed) {
+        this.delete_attachment_action();
+      }
+    });
+  }
+
+  public async delete_attachment_action() {
+    var formData = { id: this.id };
+    this.loader.show();
+    this.result = await this.service.form_action(formData, '/withdrawal-request/delete-attachment');
+    if (this.result == 'unknown_error') {
+      Swal.fire({ icon: 'error', title: 'Error!', text: 'Something went wrong. Please try again later.' });
+      this.loader.hide();
+    } else {
+      this.loader.hide();
+      if (this.result.status == false) {
+        if (this.result.code == 202) {
+          Swal.fire({ icon: 'error', title: 'Error!', text: this.result.message });
+        } else {
+          this.err = this.result.errors;
+        }
+      } else {
+        Swal.fire({ icon: 'success', title: 'Success!', text: this.result.message, timer: 1500 });
+        setTimeout(() => {
+          this.get_data();
+        }, 1500);
+      }
+    }
   }
 
   public async doFormAction() {

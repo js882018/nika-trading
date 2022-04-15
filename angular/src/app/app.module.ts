@@ -40,6 +40,7 @@ import { ViewRequestComponent } from './components/withdrawal-requests/view-requ
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ViewOrderComponent } from './components/orders/view-order/view-order.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     EditProfileComponent,
     ViewOrderComponent,
     NotFoundComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

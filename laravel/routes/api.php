@@ -75,6 +75,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('/withdrawal-request/send', [Wallet::class, 'action_withdrawal_send']);
     Route::post('/wallet-transactions', [Wallet::class, 'action_wallet_transactions']);
     Route::get('/wallet-transactions/get-data/{id}', [Wallet::class, 'get_wallet_transactions_data']);
+    Route::post('/withdrawal-request/delete-attachment', [Wallet::class, 'action_delete_attachment']);
     /* Profile */
     Route::put('/profile/update/{id}', [Profile::class, 'action_edit']);
 });

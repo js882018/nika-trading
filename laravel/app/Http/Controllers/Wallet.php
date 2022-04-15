@@ -8,6 +8,7 @@ use App\Models\Wallet as wallet_model;
 use App\Models\Transactions as transactions_model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use File;
 
 class Wallet extends Controller {
 
@@ -158,6 +159,24 @@ class Wallet extends Controller {
             return response()->json(array(
                         'status' => true,
                         'message' => 'Data has been deleted successfully.',
+                        'code' => 200
+            ));
+        } else {
+            return response()->json(array(
+                        'status' => false,
+                        'message' => 'Sorry! Something went wrong. Please try again later.',
+                        'code' => 202
+            ));
+        }
+    }
+    
+    public function action_delete_attachment(Request $request) {
+        $result = crud_model::do_update(array('attachment_name' => '', 'attachment_path' => ''), 'wallet_transactions', array('id' => $request->id));
+        if (!empty($result)) {
+            File::deleteDirectory(public_path('uploads/attachment/' . $request->id));
+            return response()->json(array(
+                        'message' => 'Attachment has been deleted successfully.',
+                        'status' => true,
                         'code' => 200
             ));
         } else {
